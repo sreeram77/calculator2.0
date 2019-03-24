@@ -105,14 +105,40 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calc.setOperatorFlag(Boolean.TRUE);
+                calcDisplay.setText(Double.toString(0));
+                calc.setDispNum(0);
+            }
+        });
+        btnEquals.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calcDisplay.setText(Double.toString(calc.getSum()));
+                calc.setOperatorFlag(Boolean.FALSE);
+            }
+        });
+
     }
 
     public double getDisplayNumber(double num){
-
         if (calc.getDispNum() != 0) {
             num = (calc.getDispNum() * 10) + num;
+
+            if (!calc.isOperatorFlag()) {
+                calc.setFirstOperand(num);
+            } else if (calc.isOperatorFlag()) {
+                calc.setSecondOperand(num);
+            }
         }
         calc.setDispNum(num);
+        if (!calc.isOperatorFlag()) {
+            calc.setFirstOperand(num);
+        } else if (calc.isOperatorFlag()) {
+            calc.setSecondOperand(num);
+        }
         return num;
     }
 }
