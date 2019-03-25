@@ -10,7 +10,7 @@ public class MainActivity extends AppCompatActivity {
 
     TextView calcDisplay;
     Button btnNum1, btnNum2, btnNum3, btnNum4, btnNum5, btnNum6, btnNum7, btnNum8, btnNum9, btnNum0;
-    Button btnAdd, btnEquals, btnMul, btnSub, btnDiv;
+    Button btnAdd, btnEquals, btnMul, btnSub, btnDiv, btnClear;
     Calc calc = new Calc();
 
     @Override
@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         btnDiv = findViewById(R.id.buttonDiv);
         btnMul = findViewById(R.id.buttonMul);
         btnEquals = findViewById(R.id.buttonEqual);
+        btnClear = findViewById(R.id.buttonClear);
 
         btnNum1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,15 +110,61 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 calc.setOperatorFlag(Boolean.TRUE);
-                calcDisplay.setText(Double.toString(0));
                 calc.setDispNum(0);
+                calc.setAction(Arithmetic.ADD);
             }
         });
+
+        btnSub.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calc.setOperatorFlag(Boolean.TRUE);
+                calc.setDispNum(0);
+                calc.setAction(Arithmetic.SUBTRACT);
+            }
+        });
+
+        btnMul.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calc.setOperatorFlag(Boolean.TRUE);
+                calc.setDispNum(0);
+                calc.setAction(Arithmetic.MULTIPLY);
+            }
+        });
+
+        btnDiv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calc.setOperatorFlag(Boolean.TRUE);
+                calc.setDispNum(0);
+                calc.setAction(Arithmetic.DIVIDE);
+            }
+        });
+
         btnEquals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calcDisplay.setText(Double.toString(calc.getSum()));
+                switch (calc.getAction())   {
+                    case ADD: calcDisplay.setText(Double.toString(calc.getSum()));
+                        break;
+                    case SUBTRACT: calcDisplay.setText(Double.toString(calc.getDifference()));
+                        break;
+                    case MULTIPLY: calcDisplay.setText(Double.toString(calc.getProduct()));
+                        break;
+                    case DIVIDE: calcDisplay.setText(Double.toString(calc.getQuotient()));
+                        break;
+                }
+
                 calc.setOperatorFlag(Boolean.FALSE);
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calc.resetState();
+                calcDisplay.setText(Double.toString(0));
             }
         });
 
