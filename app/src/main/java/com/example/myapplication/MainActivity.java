@@ -109,53 +109,35 @@ public class MainActivity extends AppCompatActivity {
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calc.setOperatorFlag(Boolean.TRUE);
-                calc.setDispNum(0);
-                calc.setAction(Arithmetic.ADD);
+                setArithmeticAction(Arithmetic.ADD);
             }
         });
 
         btnSub.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calc.setOperatorFlag(Boolean.TRUE);
-                calc.setDispNum(0);
-                calc.setAction(Arithmetic.SUBTRACT);
+                setArithmeticAction(Arithmetic.SUBTRACT);
             }
         });
 
         btnMul.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calc.setOperatorFlag(Boolean.TRUE);
-                calc.setDispNum(0);
-                calc.setAction(Arithmetic.MULTIPLY);
+                setArithmeticAction(Arithmetic.MULTIPLY);
             }
         });
 
         btnDiv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                calc.setOperatorFlag(Boolean.TRUE);
-                calc.setDispNum(0);
-                calc.setAction(Arithmetic.DIVIDE);
+                setArithmeticAction(Arithmetic.DIVIDE);
             }
         });
 
         btnEquals.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                switch (calc.getAction())   {
-                    case ADD: calcDisplay.setText(Double.toString(calc.getSum()));
-                        break;
-                    case SUBTRACT: calcDisplay.setText(Double.toString(calc.getDifference()));
-                        break;
-                    case MULTIPLY: calcDisplay.setText(Double.toString(calc.getProduct()));
-                        break;
-                    case DIVIDE: calcDisplay.setText(Double.toString(calc.getQuotient()));
-                        break;
-                }
-
+                doArithmeticAction();
                 calc.setOperatorFlag(Boolean.FALSE);
             }
         });
@@ -187,5 +169,38 @@ public class MainActivity extends AppCompatActivity {
             calc.setSecondOperand(num);
         }
         return num;
+    }
+
+    public void setArithmeticAction(Arithmetic arithmetic) {
+        if (calc.isOperatorFlag())  {
+            doArithmeticAction();
+            switch (calc.getAction())   {
+                case ADD        : calc.setFirstOperand(calc.getSum());
+                    break;
+                case SUBTRACT   : calc.setFirstOperand(calc.getDifference());
+                    break;
+                case MULTIPLY   : calc.setFirstOperand(calc.getProduct());
+                    break;
+                case DIVIDE     : calc.setFirstOperand(calc.getQuotient());
+                    break;
+            }
+        } else {
+            calc.setOperatorFlag(Boolean.TRUE);
+        }
+        calc.setDispNum(0);
+        calc.setAction(arithmetic);
+    }
+
+    public void doArithmeticAction(){
+        switch (calc.getAction())   {
+            case ADD        : calcDisplay.setText(Double.toString(calc.getSum()));
+                break;
+            case SUBTRACT   : calcDisplay.setText(Double.toString(calc.getDifference()));
+                break;
+            case MULTIPLY   : calcDisplay.setText(Double.toString(calc.getProduct()));
+                break;
+            case DIVIDE     : calcDisplay.setText(Double.toString(calc.getQuotient()));
+                break;
+        }
     }
 }
